@@ -10,15 +10,22 @@ def to_usd(my_price):
 request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=demo"
 
 response = requests.get(request_url)
-print(type(response))
-print(response.status_code)
-print(response.text)
+#print(type(response))
+#print(response.status_code)
+#print(response.text)
 
 parsed_response = json.loads(response.text)
 
 last_refreshed = parsed_response["Meta Data"] ["3. Last Refreshed"]
 
-latest_close = parsed_response ["Time Series (Daily)"] ["2019-02-20"] ["4. close"]
+#breakpoint()
+
+tsd = parsed_response ["Time Series (Daily)"]
+dates = list(tsd.keys())
+
+latest_day = dates[0]
+
+latest_close = tsd[latest_day]["4. close"]
 
 #breakpoint()
 #INFORMATION OUTPUTS
