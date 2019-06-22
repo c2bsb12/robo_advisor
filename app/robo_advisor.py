@@ -44,11 +44,13 @@ def transform_response(parsed_response):
 
     return rows
 
+
 def buy_sell(latest_close, recent_low):
-        if (latest_close) < (recent_low):
-            print ("buy")
+        if (latest_close < recent_low):
+            return "BUY"
         else:
-            print ("sell")
+            return "SELL"
+         
          
 def write_to_csv(rows, csv_filepath):
     # rows should be a list of dictionaries
@@ -96,7 +98,6 @@ if __name__ == "__main__":
     low_prices = [row["low"] for row in rows] # list comprehension for mapping purposes!
     recent_high = max(high_prices)
     recent_low = min(low_prices)
-  
 
 
     #latest_day = dates[0]
@@ -158,8 +159,8 @@ if __name__ == "__main__":
     print(f"RECENT HIGH: {to_usd(float(recent_high))}")
     print(f"RECENT LOW: {to_usd(float(recent_low))}")
     print("-------------------------")
-    reccomendation = (buy_sell)
-    print("RECCOMENDATION: " + str(reccomendation))
+    recommendation = buy_sell(latest_close, recent_low)
+    print("RECCOMENDATION: " + str(recommendation))
     print("RECOMMENDATION REASON: TODO")
     print("-------------------------")
     print(f"WRITING DATA TO CSV: {csv_file_path}")
