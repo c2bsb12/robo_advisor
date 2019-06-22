@@ -46,10 +46,16 @@ def transform_response(parsed_response):
 
 
 def buy_sell(latest_close, recent_low):
-        if (latest_close < recent_low):
+        if (latest_close < ((.20*recent_low)+recent_low)):
             return "BUY"
         else:
             return "SELL"
+
+def rec_reason(latest_close, recent_low):
+        if (latest_close < ((.20*recent_low)+recent_low)):
+            return "Buy shares when the latest close price is less than 20 percent above the recent low price"
+        else:
+            return "Sell shares when the latest close price is more than 20 percent of recent low price"
          
          
 def write_to_csv(rows, csv_filepath):
@@ -160,8 +166,9 @@ if __name__ == "__main__":
     print(f"RECENT LOW: {to_usd(float(recent_low))}")
     print("-------------------------")
     recommendation = buy_sell(latest_close, recent_low)
-    print("RECCOMENDATION: " + str(recommendation))
-    print("RECOMMENDATION REASON: TODO")
+    print("RECOMMENDATION: " + str(recommendation))
+    reason = rec_reason(latest_close, recent_low)
+    print("RECOMMENDATION REASON: " +str(reason))
     print("-------------------------")
     print(f"WRITING DATA TO CSV: {csv_file_path}")
     print("-------------------------")
