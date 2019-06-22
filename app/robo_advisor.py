@@ -2,6 +2,7 @@
 import csv
 import json
 import os
+import datetime
 
 from dotenv import load_dotenv
 import requests
@@ -22,6 +23,10 @@ response = requests.get(request_url)
 #print(type(response))
 #print(response.status_code)
 #print(response.text)
+
+
+time_now = datetime.datetime.now() #> datetime.datetime(2019, 3, 3, 14, 44, 57, 139564)
+
 
 parsed_response = json.loads(response.text)
 
@@ -80,13 +85,14 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
             "volume": "TODO"
         })
    
+formatted_time_now = time_now.strftime("%Y-%m-%d %H:%M:%S") #> '2019-03-03 14:45:27'
 
 
 print("-------------------------")
 print("SELECTED SYMBOL: XYZ")
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
-print("REQUEST AT: 2018-02-20 02:00pm")##INSERT DATE TIME ##
+print(f"REQUEST AT: {formatted_time_now}")
 print("-------------------------")
 print(f"LATEST DAY: {last_refreshed}")
 print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
