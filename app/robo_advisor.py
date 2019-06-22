@@ -43,9 +43,13 @@ def transform_response(parsed_response):
          rows.append(row)
 
     return rows
+
+def buy_sell(latest_close, recent_low):
+        if (latest_close) < (recent_low):
+            print ("buy")
+        else:
+            print ("sell")
          
-
-
 def write_to_csv(rows, csv_filepath):
     # rows should be a list of dictionaries
     # csv_filepath should be a string filepath pointing to where the data should be written
@@ -61,7 +65,6 @@ def write_to_csv(rows, csv_filepath):
     return True
 
 
-
 if __name__ == "__main__":
 
     time_now = datetime.datetime.now() #> datetime.datetime(2019, 3, 3, 14, 44, 57, 139564)
@@ -69,16 +72,20 @@ if __name__ == "__main__":
     #INFORMATION INPUTS
     
     symbol = input("Please specify a stock symbol (e.g. AMZN) and press enter: ")
+
 #validate input
 
-    options = [symbol]
+    #options = [symbol]
 
-    if input not in options:
-        print("Invalid entry. Please input a valid stock symbol")
-        exit()
-
-
+    #if symbol not in options:
+       # print("Invalid entry. Please input a valid stock symbol")
+       # exit()
+  
     parsed_response = get_response(symbol)
+ 
+    if "Error Message" in parsed_response:
+        print("Ivalid entry. Please select valid symbol")
+        exit()
 
     last_refreshed = parsed_response["Meta Data"] ["3. Last Refreshed"]
     
@@ -89,6 +96,7 @@ if __name__ == "__main__":
     low_prices = [row["low"] for row in rows] # list comprehension for mapping purposes!
     recent_high = max(high_prices)
     recent_low = min(low_prices)
+  
 
 
     #latest_day = dates[0]
@@ -150,7 +158,8 @@ if __name__ == "__main__":
     print(f"RECENT HIGH: {to_usd(float(recent_high))}")
     print(f"RECENT LOW: {to_usd(float(recent_low))}")
     print("-------------------------")
-    print("RECOMMENDATION: BUY!")
+    reccomendation = (buy_sell)
+    print("RECCOMENDATION: " + str(reccomendation))
     print("RECOMMENDATION REASON: TODO")
     print("-------------------------")
     print(f"WRITING DATA TO CSV: {csv_file_path}")
